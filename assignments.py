@@ -23,10 +23,11 @@ class Courses(object):
 		self.apiKey = apiKey
 
 
+
 	def classData(self):
 		headers = { "Authorization":"Bearer "+self.apiKey}
 
-		r = requests.get(self.url, headers = headers)
+		r = requests.get(self.url+"courses", headers = headers)
 
 		data = r.json()
 
@@ -52,6 +53,14 @@ class Courses(object):
 			return(thisTerm(findRightClasses(d)))
 		return(currentClasses(data))
 
-		#created at date within the last 5 months, pop if not
+
+
+	def classNames(self):
+		clData = self.classData()
+		classArr = []
+		for i in clData:
+			classArr.append(i['name'])
+		return classArr
+
 
 		#print(currentClasses(data))
