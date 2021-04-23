@@ -10,7 +10,12 @@ class Canvas(object):
 		courseInfo = Courses(self.url,self.apiKey)
 		return courseInfo.classData()
 
+	def getClassNames(self):
+		classNames = Courses(self.url,self.apiKey)
+		return classNames.classNames()
 
-obj = Canvas("https://csus.instructure.com/api/v1/courses", "*******************")
+
+obj = Canvas("https://csus.instructure.com/api/v1/", "**********************")
 
 print(obj.getClassData())
+print(obj.getClassNames())
