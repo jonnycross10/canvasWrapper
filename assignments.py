@@ -5,25 +5,14 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
 
-'''
-Throughout this API, the :user_id parameter can be replaced with self as a shortcut for the id of the user accessing the API.
-For instance, users/:user_id/page_views can be accessed as users/self/page_views to access the current user's page views.
-'''
 
-'''
-apiKey = "11299~LMYUCn8olYHTl1soCXfp9yAA4ybJ46aY2OgZ2IGsFrN4yBQ23j6ZC6BMAAOTYcr0"
-
-headers = {
-  "Authorization":"Bearer "+apiKey
-}
-'''
 class Courses(object):
 	def __init__(self, url, apiKey):
 		self.url = url
 		self.apiKey = apiKey
 
 
-
+	#returns full data set of current classes
 	def classData(self):
 		headers = { "Authorization":"Bearer "+self.apiKey}
 
@@ -31,8 +20,6 @@ class Courses(object):
 
 		data = r.json()
 
-		#print(data)
-		#print(data[]["name"])
 		def currentClasses(d):
 			def findRightClasses(d):#return actual classes
 				correctClass = []
@@ -54,8 +41,8 @@ class Courses(object):
 		return(currentClasses(data))
 
 
-
-	def classNames(self):
+	#returns array of current classes
+	def classNames(self): 
 		clData = self.classData()
 		classArr = []
 		for i in clData:
@@ -63,4 +50,32 @@ class Courses(object):
 		return classArr
 
 
-		#print(currentClasses(data))
+	#returns dictionary of ids
+	def classID(self):
+		clData = self.classData()
+		idDict = []
+		for i in clData:
+			idDict.append(i['id'])
+		return idDict
+
+	#gets current assignments
+	def allAssignments(self):
+		clData = self.classData()
+		ids = self.classID()
+		assignments = []
+		headers = { "Authorization":"Bearer "+self.apiKey, "order_by": "due_at"}
+		#/api/v1/courses/:course_id/assignments
+		for i in range(0,len(ids)):
+			r = requests.get(self.url+"courses/"+str(ids[i])+"/assignments", headers = headers)
+			assignments.append(r.json())
+		return assignments
+
+	
+	def upcomingAssignments(self):
+		assignments = self.allAssignments()
+		notDueYet = []
+		for i in range(0,len(assignments)):
+			notDueYet.append(assignments[i]['name']) #not json anymore??
+		return notDueYet
+
+
