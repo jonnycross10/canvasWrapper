@@ -14,8 +14,18 @@ class Canvas(object):
 		classNames = Courses(self.url,self.apiKey)
 		return classNames.classNames()
 
+	def getAllAssignments(self):
+		currentAssignments = Courses(self.url,self.apiKey)
+		return currentAssignments.allAssignments()
 
-obj = Canvas("https://csus.instructure.com/api/v1/", "**********************")
+	def getUpcomingAssignments(self):
+		course = Courses(self.url,self.apiKey)
+		return course.upcomingAssignments()
 
-print(obj.getClassData())
-print(obj.getClassNames())
+
+obj = Canvas("https://csus.instructure.com/api/v1/", "11299~LMYUCn8olYHTl1soCXfp9yAA4ybJ46aY2OgZ2IGsFrN4yBQ23j6ZC6BMAAOTYcr0")
+
+#print(obj.getClassData())
+#print(obj.getClassNames())
+#print(obj.getAllAssignments())
+print(obj.getUpcomingAssignments())
