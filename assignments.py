@@ -75,7 +75,8 @@ class Courses(object):
 		assignments = self.allAssignments()
 		notDueYet = []
 		for i in range(0,len(assignments)):
-			notDueYet.append(assignments[i]['name']) #not json anymore??
+			for j in range(0,len(assignments[i])):
+				notDueYet.append(assignments[i][j]['name']) 
 		return notDueYet
 
 
